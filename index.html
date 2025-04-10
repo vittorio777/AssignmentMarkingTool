@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment Grading Tool</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <style>
         .result {
             font-family: monospace;
@@ -176,7 +176,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
         // 添加学号输入框的事件监听
         document.getElementById('studentId').addEventListener('input', function() {
@@ -219,11 +219,13 @@
             // 如果只找到一个非零数字，也可以使用
             if (lastTwoNonZero.length === 1) {
                 lastTwoNonZero = lastTwoNonZero + lastTwoNonZero;
+                // return;
             }
             
             // 如果找不到非零数字，使用默认值11
             if (lastTwoNonZero === '') {
                 lastTwoNonZero = '11';
+                // return;
             }
 
             const A = parseInt(lastTwoNonZero);
