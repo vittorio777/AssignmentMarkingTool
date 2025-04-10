@@ -416,7 +416,7 @@ ${'-'.padStart(maxLength + 3, '-')}
             }
 
             // Format the step-by-step process
-            const steps = `  ${absValue} =             ${binary}
+            const steps = `  ${absValue}             = ${binary}
 1's complement = ${flipped}
 Add 1                 + 1
              --------------
@@ -438,15 +438,66 @@ ${num}            = ${result}`;
             return result;
         }
         
-        // Function to perform 8-bit 2's complement addition
+        // Function to perform 8-bit 2's complement addition with detailed explanation
         function add2sComplement(a, b) {
+            // Convert binary strings to decimal numbers
             let num1 = parseInt(a, 2);
             let num2 = parseInt(b, 2);
+            
+            // Convert to signed values
             if (num1 > 127) num1 -= 256;
             if (num2 > 127) num2 -= 256;
+            
+            // Determine signs of operands
+            const sign1 = num1 >= 0;
+            const sign2 = num2 >= 0;
+            
+            // Perform addition
             let sum = num1 + num2;
-            let hasOverflow = sum > 127 || sum < -128;
             let result = to2sComplement(sum);
+            
+            // Determine sign of result
+            const signResult = parseInt(result, 2) <= 127;
+            
+            // Check for overflow and prepare explanation
+            let hasOverflow = false;
+            let explanation = '';
+            
+            if (sign1 === sign2) {
+                // Same sign operands
+                if (sign1 !== signResult) {
+                    hasOverflow = true;
+                    explanation = `Overflow occurred: Both operands have the same sign (${sign1 ? 'positive' : 'negative'}), but the result has a different sign (${signResult ? 'positive' : 'negative'}).`;
+                } else {
+                    explanation = `No overflow: Both operands have the same sign (${sign1 ? 'positive' : 'negative'}), and the result maintains the same sign.`;
+                }
+            } else {
+                explanation = 'No overflow: The operands have different signs, so overflow cannot occur.';
+            }
+            
+            // Format the step-by-step process
+//             const steps = `Binary Addition Process:
+// ${a} (${num1})
+// ${b} (${num2})
+// ${'-'.repeat(Math.max(a.length, b.length))}
+// ${result} (${sum})
+
+// ${explanation}`;
+                const steps = `${explanation}`;
+            
+            // Update the display
+            const processDetailsDiv = document.querySelector('#' + (a === document.querySelector('#binaryResult').textContent ? 'addA2C2Result' : 'addC2Result')).parentElement;
+            const stepsDiv = processDetailsDiv.querySelector('.addition-steps') || document.createElement('div');
+            stepsDiv.className = 'addition-steps';
+            stepsDiv.style.fontFamily = 'monospace';
+            stepsDiv.style.whiteSpace = 'pre';
+            stepsDiv.style.marginTop = '0.5em';
+            stepsDiv.innerHTML = steps;
+            
+            if (!processDetailsDiv.querySelector('.addition-steps')) {
+                processDetailsDiv.appendChild(stepsDiv);
+            }
+            
             return {
                 result: result,
                 overflow: hasOverflow
