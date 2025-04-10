@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Grading Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .result {
+            font-family: monospace;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .card {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .process-details {
+            margin-top: 1rem;
+            /* padding-left: 1rem; */
+        }
+        .process-details div {
+            margin-bottom: 0.75rem;
+            margin-left: 1rem;
+            text-indent: -1rem;
+        }
+        .form-control {
+            margin-bottom: 1rem;
+        }
+
+        /* .student-id-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        } */
+        .input-group {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: stretch;
+        }
+        .input-group-text {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            min-width: 80px;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            height: 38px;
+        }
+        .form-control {
+            margin-bottom: 0;
+            height: 38px;
+            padding: 0.5rem 1rem;
+        }
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        .a-value-display {
+            font-size: 1.1rem;
+            color: #0d6efd;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            background: white;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .a-value-display span {
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Assignment Grading Tool</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="student-id-section">
+                                <div class="input-group">
+                                    <label for="studentId" class="input-group-text">AUT ID</label>
+                                    <input type="text" class="form-control" id="studentId" placeholder="Please enter your AUT ID">
+                                </div>
+                                <div class="a-value-display">A: <span id="aValue">-</span></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <!-- Question 1 -->
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Question 1: Converting Between Number Bases</h5>
+                                </div>
+                                <div class="card-body result">
+                                    <div class="process-details">
+                                        <div>a) A<sub>2</sub>: <span id="binaryResult">-</span></div>
+                                        <div>b) A<sub>16</sub>: <span id="hexResult">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Question 2: Unsigned Binary and Hex Addition</h5>
+                                </div>
+                                <div class="card-body result">
+                                    <div class="process-details">
+                                        <div>a) A<sub>2</sub> + 1010 1001<sub>2</sub> = <span id="unsignedBinaryResult">-</span></div>
+                                        <div>b) A<sub>16</sub> + A7<sub>16</sub> = <span id="unsignedHexResult">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 3 -->
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Question 3: 2's Complement Conversion</h5>
+                                </div>
+                                <div class="card-body result">
+                                    <div class="process-details">
+                                        <div>a) B<sub>10</sub> = <span id="b10Value">-</span></div>
+                                        <div>b) C<sub>2</sub> = <span id="c2Value">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 4 -->
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Question 4: 2's Complement Operations</h5>
+                                </div>
+                                <div class="card-body result">
+                                    <div class="process-details">
+                                        <div>a) A<sub>2</sub> + C<sub>2</sub> = <span id="addA2C2Result">-</span><span id="overflowA2C2"></span></div>
+                                        <div>b) C<sub>2</sub> + 0100 1101 = <span id="addC2Result">-</span><span id="overflowC2"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 5 -->
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Question 5: ASCII Characters</h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- <div>assume each 7-bit ASCII code occupies the space of an 8-bit</div> -->
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="fullName" placeholder="Your full name">
+                                    </div>
+                                    <div class="result mt-3 process-details">
+                                        <div>a) Your full name in Hexadecimal: <span id="asciiHexResult">-</span></div>
+                                        <div>b) How many bits are used: <span id="bitsUsedResult">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="calculate()">计算</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function calculate() {
+            const studentId = document.getElementById('studentId').value.trim();
+            if (!studentId || !/^\d+$/.test(studentId)) {
+                alert('请输入有效的学号（仅数字）');
+                return;
+            }
+
+            // 将学号转换为字符串并反转，以便从右向左查找非零数字
+            const reversedId = studentId.split('').reverse().join('');
+            let nonZeroCount = 0;
+            let lastTwoNonZero = '';
+            
+            // 查找最后两个非零数字
+            for (let digit of reversedId) {
+                if (digit !== '0') {
+                    lastTwoNonZero = digit + lastTwoNonZero;
+                    nonZeroCount++;
+                    if (nonZeroCount === 2) break;
+                }
+            }
+            
+            // 如果只找到一个非零数字，也可以使用
+            if (lastTwoNonZero.length === 1) {
+                lastTwoNonZero = lastTwoNonZero + lastTwoNonZero;
+            }
+            
+            // 如果找不到非零数字，使用默认值11
+            if (lastTwoNonZero === '') {
+                lastTwoNonZero = '11';
+            }
+
+            const A = parseInt(lastTwoNonZero);
+            const binaryA = A.toString(2);
+            const hexA = A.toString(16).toUpperCase();
+
+            // 显示Question 1结果
+            document.getElementById('aValue').textContent = A;
+            document.getElementById('binaryResult').textContent = binaryA;
+            document.getElementById('hexResult').textContent = hexA;
+
+            // 计算Question 2结果（无符号运算）
+            const unsignedBinarySum = unsignedBinaryAdd(binaryA, '10101001');
+            const unsignedHexSum = unsignedHexAdd(hexA, 'A7');
+            document.getElementById('unsignedBinaryResult').textContent = unsignedBinarySum;
+            document.getElementById('unsignedHexResult').textContent = unsignedHexSum;
+
+            // 计算Question 3结果
+            const B10 = -A;
+            document.getElementById('b10Value').textContent = B10;
+            const C2 = to2sComplement(B10);
+            document.getElementById('c2Value').textContent = C2;
+
+            // 计算Question 4结果
+            const addA2C2 = add2sComplement(binaryA, C2);
+            document.getElementById('addA2C2Result').textContent = addA2C2.result;
+            document.getElementById('overflowA2C2').textContent = addA2C2.overflow ? ' (Overflow)' : '';
+            
+            const addC2 = add2sComplement(C2, '01001101');
+            document.getElementById('addC2Result').textContent = addC2.result;
+            document.getElementById('overflowC2').textContent = addC2.overflow ? ' (Overflow)' : '';
+        }
+
+        // 处理ASCII名字转换
+        document.getElementById('fullName').addEventListener('input', function() {
+            const name = this.value;
+            if (!name) {
+                document.getElementById('asciiHexResult').textContent = '-';
+                document.getElementById('bitsUsedResult').textContent = '-';
+                return;
+            }
+            
+            let hex = '';
+            let validChars = '';
+            
+            // 只处理ASCII字符（0-127）
+            for (let i = 0; i < name.length; i++) {
+                const charCode = name.charCodeAt(i);
+                if (charCode <= 127) {
+                    validChars += name[i];
+                    hex += charCode.toString(16).toUpperCase().padStart(2, '0') + ' ';
+                }
+            }
+            
+            // 计算有效ASCII字符使用的位数（每个字符7位，这里按8位算）
+            const charCount = validChars.length;
+            const bitsUsed = charCount * 8;
+            
+            document.getElementById('asciiHexResult').textContent = hex.trim() || '-';
+            document.getElementById('bitsUsedResult').textContent = bitsUsed || '-';
+        });
+        
+        // 无符号二进制加法
+        function unsignedBinaryAdd(a, b) {
+            const numA = parseInt(a, 2);
+            const numB = parseInt(b, 2);
+            const sum = numA + numB;
+            return sum.toString(2);
+        }
+
+        // 无符号十六进制加法
+        function unsignedHexAdd(a, b) {
+            const numA = parseInt(a, 16);
+            const numB = parseInt(b, 16);
+            const sum = numA + numB;
+            return sum.toString(16).toUpperCase();
+        }
+
+        function to2sComplement(num) {
+            if (num >= 0) {
+                return (num % 256).toString(2).padStart(8, '0');
+            }
+            
+            // For negative numbers
+            let absValue = Math.abs(num);
+            let binary = absValue.toString(2).padStart(8, '0');
+            let flipped = '';
+            for (let bit of binary) {
+                flipped += bit === '0' ? '1' : '0';
+            }
+            
+            // Add 1 to get 2's complement
+            let result = '';
+            let carry = 1;
+            for (let i = flipped.length - 1; i >= 0; i--) {
+                let sum = parseInt(flipped[i]) + carry;
+                result = (sum % 2) + result;
+                carry = Math.floor(sum / 2);
+            }
+            return result;
+        }
+        
+        // Function to perform 8-bit 2's complement addition
+        function add2sComplement(a, b) {
+            let num1 = parseInt(a, 2);
+            let num2 = parseInt(b, 2);
+            if (num1 > 127) num1 -= 256;
+            if (num2 > 127) num2 -= 256;
+            let sum = num1 + num2;
+            let hasOverflow = sum > 127 || sum < -128;
+            let result = to2sComplement(sum);
+            return {
+                result: result,
+                overflow: hasOverflow
+            };
+        }
+    </script>
+</body>
+</html>
