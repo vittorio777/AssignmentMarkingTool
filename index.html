@@ -103,8 +103,12 @@
                                 </div>
                                 <div class="card-body result">
                                     <div class="process-details">
-                                        <div>a) A<sub>2</sub>: <span id="binaryResult">-</span></div>
-                                        <div>b) A<sub>16</sub>: <span id="hexResult">-</span></div>
+                                        <div>a) A<sub>2</sub>: <span id="binaryResult" style="color: #0d6efd; font-weight: bold;">-</span>
+                                            <div id="binarySteps" class="process-steps" style="font-size: 0.9em; margin-top: 0.5em; margin-left: 1em;"></div>
+                                        </div>
+                                        <div>b) A<sub>16</sub>: <span id="hexResult" style="color: #0d6efd; font-weight: bold;">-</span>
+                                            <div id="hexSteps" class="process-steps" style="font-size: 0.9em; margin-top: 0.5em; margin-left: 1em;"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,8 +120,8 @@
                                 </div>
                                 <div class="card-body result">
                                     <div class="process-details">
-                                        <div>a) A<sub>2</sub> + 1010 1001<sub>2</sub> = <span id="unsignedBinaryResult">-</span></div>
-                                        <div>b) A<sub>16</sub> + A7<sub>16</sub> = <span id="unsignedHexResult">-</span></div>
+                                        <div>a) A<sub>2</sub> + 1010 1001<sub>2</sub> = <span id="unsignedBinaryResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
+                                        <div>b) A<sub>16</sub> + A7<sub>16</sub> = <span id="unsignedHexResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -129,8 +133,8 @@
                                 </div>
                                 <div class="card-body result">
                                     <div class="process-details">
-                                        <div>a) B<sub>10</sub> = <span id="b10Value">-</span></div>
-                                        <div>b) C<sub>2</sub> = <span id="c2Value">-</span></div>
+                                        <div>a) B<sub>10</sub> = <span id="b10Value" style="color: #0d6efd; font-weight: bold;">-</span></div>
+                                        <div>b) C<sub>2</sub> = <span id="c2Value" style="color: #0d6efd; font-weight: bold;">-</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -142,8 +146,8 @@
                                 </div>
                                 <div class="card-body result">
                                     <div class="process-details">
-                                        <div>a) A<sub>2</sub> + C<sub>2</sub> = <span id="addA2C2Result">-</span><span id="overflowA2C2"></span></div>
-                                        <div>b) C<sub>2</sub> + 0100 1101 = <span id="addC2Result">-</span><span id="overflowC2"></span></div>
+                                        <div>a) A<sub>2</sub> + C<sub>2</sub> = <span id="addA2C2Result" style="color: #0d6efd; font-weight: bold;">-</span><span id="overflowA2C2"></span></div>
+                                        <div>b) C<sub>2</sub> + 0100 1101 = <span id="addC2Result" style="color: #0d6efd; font-weight: bold;">-</span><span id="overflowC2"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -159,8 +163,8 @@
                                         <input type="text" class="form-control" id="fullName" placeholder="Your full name">
                                     </div>
                                     <div class="result mt-3 process-details">
-                                        <div>a) Your full name in Hexadecimal: <span id="asciiHexResult">-</span></div>
-                                        <div>b) How many bits are used: <span id="bitsUsedResult">-</span></div>
+                                        <div>a) Your full name in Hexadecimal: <span id="asciiHexResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
+                                        <div>b) How many bits are used: <span id="bitsUsedResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -206,6 +210,37 @@
             }
 
             const A = parseInt(lastTwoNonZero);
+            // Calculate binary conversion steps
+            let binarySteps = [];
+            let num = A;
+            while (num > 0) {
+                const remainder = num % 2;
+                const quotient = Math.floor(num / 2);
+                binarySteps.push(`${num} ÷ 2 = ${quotient} remainder ${remainder}`);
+                num = quotient;
+            }
+            
+            // Display binary steps
+            const binaryStepsHtml = binarySteps.map(step => `<div>${step}</div>`).join('') +
+                `<div style="margin-top: 0.5em;">Binary result (reading remainders from bottom to top): ${A.toString(2)}</div>`;
+            document.getElementById('binarySteps').innerHTML = binaryStepsHtml;
+
+            // Calculate hexadecimal conversion steps
+            let hexSteps = [];
+            num = A;
+            while (num > 0) {
+                const remainder = num % 16;
+                const quotient = Math.floor(num / 16);
+                const hexRemainder = remainder < 10 ? remainder : String.fromCharCode(55 + remainder);
+                hexSteps.push(`${num} ÷ 16 = ${quotient} remainder ${remainder} (${hexRemainder})`); 
+                num = quotient;
+            }
+
+            // Display hexadecimal steps
+            const hexStepsHtml = hexSteps.map(step => `<div>${step}</div>`).join('') +
+                `<div style="margin-top: 0.5em;">Hexadecimal result (reading remainders from bottom to top): ${A.toString(16).toUpperCase()}</div>`;
+            document.getElementById('hexSteps').innerHTML = hexStepsHtml;
+            
             const binaryA = A.toString(2);
             const hexA = A.toString(16).toUpperCase();
 
@@ -267,10 +302,55 @@
         
         // 无符号二进制加法
         function unsignedBinaryAdd(a, b) {
-            const numA = parseInt(a, 2);
-            const numB = parseInt(b, 2);
-            const sum = numA + numB;
-            return sum.toString(2);
+            // Pad numbers to same length
+            const maxLength = Math.max(a.length, b.length);
+            a = a.padStart(maxLength, '0');
+            b = b.padStart(maxLength, '0');
+            
+            let result = '';
+            let carry = '';
+            let tempCarry = 0;
+            
+            // Calculate carry bits first
+            for (let i = maxLength - 1; i >= 0; i--) {
+                const bitA = parseInt(a[i] || '0');
+                const bitB = parseInt(b[i] || '0');
+                const sum = bitA + bitB + tempCarry;
+                tempCarry = sum >= 2 ? 1 : 0;
+                carry = tempCarry.toString() + carry;
+            }
+            
+            // Reset for actual addition
+            tempCarry = 0;
+            for (let i = maxLength - 1; i >= 0; i--) {
+                const bitA = parseInt(a[i] || '0');
+                const bitB = parseInt(b[i] || '0');
+                const sum = bitA + bitB + tempCarry;
+                result = (sum % 2) + result;
+                tempCarry = sum >= 2 ? 1 : 0;
+            }
+            
+            // Format the step-by-step process
+            const steps = `    <span style="color: red">${carry}</span>  (carry)
+   ${a}
++  ${b}
+${'-'.padStart(maxLength + 3, '-')}
+   ${result}`;
+            
+            // Update the display
+            const processDetailsDiv = document.querySelector('#unsignedBinaryResult').parentElement;
+            const stepsDiv = processDetailsDiv.querySelector('.binary-steps') || document.createElement('div');
+            stepsDiv.className = 'binary-steps';
+            stepsDiv.style.fontFamily = 'monospace';
+            stepsDiv.style.whiteSpace = 'pre';
+            stepsDiv.style.marginTop = '0.5em';
+            stepsDiv.innerHTML = steps;
+            
+            if (!processDetailsDiv.querySelector('.binary-steps')) {
+                processDetailsDiv.appendChild(stepsDiv);
+            }
+            
+            return result;
         }
 
         // 无符号十六进制加法
@@ -278,7 +358,39 @@
             const numA = parseInt(a, 16);
             const numB = parseInt(b, 16);
             const sum = numA + numB;
-            return sum.toString(16).toUpperCase();
+            const result = sum.toString(16).toUpperCase();
+
+            // Calculate carry bits
+            let carry = '';
+            let tempCarry = 0;
+            const aDigits = a.padStart(result.length, '0').split('');
+            const bDigits = b.padStart(result.length, '0').split('');
+
+            for (let i = aDigits.length - 1; i >= 0; i--) {
+                const digitA = parseInt(aDigits[i], 16);
+                const digitB = parseInt(bDigits[i], 16);
+                const digitSum = digitA + digitB + tempCarry;
+                tempCarry = Math.floor(digitSum / 16);
+                carry = tempCarry.toString(16).toUpperCase() + carry;
+            }
+
+            // Format the step-by-step process
+            const steps = `    <span style="color: red">${carry}</span>  (carry)\n   ${a.padStart(result.length, ' ')}\n+  ${b.padStart(result.length, ' ')}\n${'-'.padStart(result.length + 3, '-')}\n   ${result}`;
+
+            // Update the display
+            const processDetailsDiv = document.querySelector('#unsignedHexResult').parentElement;
+            const stepsDiv = processDetailsDiv.querySelector('.hex-steps') || document.createElement('div');
+            stepsDiv.className = 'hex-steps';
+            stepsDiv.style.fontFamily = 'monospace';
+            stepsDiv.style.whiteSpace = 'pre';
+            stepsDiv.style.marginTop = '0.5em';
+            stepsDiv.innerHTML = steps;
+
+            if (!processDetailsDiv.querySelector('.hex-steps')) {
+                processDetailsDiv.appendChild(stepsDiv);
+            }
+
+            return result;
         }
 
         function to2sComplement(num) {
@@ -302,6 +414,27 @@
                 result = (sum % 2) + result;
                 carry = Math.floor(sum / 2);
             }
+
+            // Format the step-by-step process
+            const steps = `  ${absValue} =             ${binary}
+1's complement = ${flipped}
+Add 1                 + 1
+             --------------
+${num}            = ${result}`;
+
+            // Update the display
+            const processDetailsDiv = document.querySelector('#c2Value').parentElement;
+            const stepsDiv = processDetailsDiv.querySelector('.steps') || document.createElement('div');
+            stepsDiv.className = 'steps';
+            stepsDiv.style.fontFamily = 'monospace';
+            stepsDiv.style.whiteSpace = 'pre';
+            stepsDiv.style.marginTop = '0.5em';
+            stepsDiv.innerHTML = steps;
+            
+            if (!processDetailsDiv.querySelector('.steps')) {
+                processDetailsDiv.appendChild(stepsDiv);
+            }
+
             return result;
         }
         
