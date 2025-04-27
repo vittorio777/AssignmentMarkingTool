@@ -23,7 +23,7 @@
 
 ## 使用方法
 
-1. 访问工具网页：[Assignment Grading Tool](xxx)
+1. 访问工具网页：[Assignment Grading Tool](https://waynez.online/)
 
 2. 输入学号
    - 在"ID"输入框中输入你的学号
