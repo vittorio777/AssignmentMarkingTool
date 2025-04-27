@@ -419,9 +419,10 @@ ${'-'.padStart(maxLength + 3, '-')}
             if (num >= 0) {
                 return (num % 256).toString(2).padStart(8, '0');
             }
-            
+            console.log(num);
             // For negative numbers
             let absValue = Math.abs(num);
+            console.log(absValue);
             let binary = absValue.toString(2).padStart(8, '0');
             let flipped = '';
             for (let bit of binary) {
@@ -461,6 +462,29 @@ ${num}            = ${result}`;
         }
         
         // Function to perform 8-bit 2's complement addition with detailed explanation
+        function to2sComplementQ4(num) {
+            if (num >= 0) {
+                return (num % 256).toString(2).padStart(8, '0');
+            }
+            // For negative numbers
+            let absValue = Math.abs(num);
+            let binary = absValue.toString(2).padStart(8, '0');
+            let flipped = '';
+            for (let bit of binary) {
+                flipped += bit === '0' ? '1' : '0';
+            }
+            
+            // Add 1 to get 2's complement
+            let result = '';
+            let carry = 1;
+            for (let i = flipped.length - 1; i >= 0; i--) {
+                let sum = parseInt(flipped[i]) + carry;
+                result = (sum % 2) + result;
+                carry = Math.floor(sum / 2);
+            }
+            return result;
+        }
+
         function add2sComplement(a, b) {
             // Convert binary strings to decimal numbers
             let num1 = parseInt(a, 2);
@@ -476,7 +500,7 @@ ${num}            = ${result}`;
             
             // Perform addition
             let sum = num1 + num2;
-            let result = to2sComplement(sum);
+            let result = to2sComplementQ4(sum);
             
             // Determine sign of result
             const signResult = parseInt(result, 2) <= 127;
