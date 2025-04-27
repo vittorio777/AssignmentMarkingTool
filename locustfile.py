@@ -2,7 +2,7 @@ from locust import HttpUser, task, between
 
 class WebsiteUser(HttpUser):
     wait_time = between(1, 2.5)  # 用户在执行任务之间等待1-2.5秒
-    host = "https://waynez.online"  # 设置目标主机
+    host = "https://baidu.com"  # 设置目标主机
 
     @task(1)
     def visit_homepage(self):
