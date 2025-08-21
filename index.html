@@ -121,7 +121,7 @@
                                 <div class="card-body result">
                                     <div class="process-details">
                                         <div>a) A<sub>2</sub> + 1010 1001<sub>2</sub> = <span id="unsignedBinaryResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
-                                        <div>b) A<sub>16</sub> + A7<sub>16</sub> = <span id="unsignedHexResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
+                                        <div>b) A<sub>16</sub> + D7<sub>16</sub> = <span id="unsignedHexResult" style="color: #0d6efd; font-weight: bold;">-</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +270,7 @@
 
             // 计算Question 2结果（无符号运算）
             const unsignedBinarySum = unsignedBinaryAdd(binaryA, '10101001');
-            const unsignedHexSum = unsignedHexAdd(hexA, 'A7');
+            const unsignedHexSum = unsignedHexAdd(hexA, 'D7');
             document.getElementById('unsignedBinaryResult').innerHTML = unsignedBinarySum + '<sub>2</sub>';
             document.getElementById('unsignedHexResult').innerHTML = unsignedHexSum + '<sub>16</sub>';
 
